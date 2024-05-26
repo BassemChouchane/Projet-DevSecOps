@@ -1,0 +1,66 @@
+pipeline {
+    agent any
+    environment {
+        registry = "pfa123/pfa3.0"
+        registryCredential = 'dockerhubpfa'
+        dockerImage = ''
+    }
+    stages {
+        stage('Build') {
+            steps {
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/BApfa12/ProjetFA_v1']])
+                bat 'npm install'
+            }
+        }
+        stage('SonarQube analysis as SAST') {
+            steps {
+                withSonarQubeEnv('sonar') {
+                    bat "npm install sonar-scanner"
+                    bat "npm run sonar"
+                }
+            }
+        }
+        stage('Snyk as a SCA') {
+            steps {
+               snykSecurity  failOnIssues: false, monitorProjectOnBuild: false, snykInstallation: 'snyk@latest', snykTokenId: 'Snyk-Jenkins'
+                
+            }
+        }
+        
+         stage('Build a Docker Image') {
+             steps {
+                 script {
+                         dockerImage = docker.build registry
+                 }
+             }
+         }
+        stage('Push Image to DockerHub') {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
+                        dockerImage.push("latest")
+                    }
+                }
+            }
+        }
+        stage('Docker Scout as a container scanner') {
+            steps {
+                script {
+                    docker.withRegistry('', registryCredential) {
+                        bat "docker pull pfa123/pfa3.0:latest"
+                        bat "docker scout version"
+                        bat "docker scout cves %dockerImage%"
+                        bat "docker scout recommendations %dockerImage%"
+                    }
+                }
+            }
+        }
+        stage('Deploy to K8s') {
+            steps {
+                script {
+                    kubernetesDeploy (configs:'deployment.yaml',kubeconfigId: 'k8scon')
+                }
+            }
+        }
+    }
+}
