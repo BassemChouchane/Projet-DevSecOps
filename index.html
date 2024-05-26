@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact me</title>
+    <link rel="shortcut icon" href="img/triangles.png" type="image/x-icon">
+    <!-- CSS link -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts links  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* CSS for quote overlay */
+        .quote-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* Ensure the overlay appears above other content */
+        }
+
+        .quote-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            max-width: 80%;
+            text-align: center;
+        }
+
+        .quote-text {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="wrapp">
+    <div class="card__wrapp">
+        <div class="txt__card">
+            <div class="top__txt">
+                <h5>Contact me</h5>
+                <div class="line__top"></div>
+            </div>
+            <div class="bottom__txt">
+                <h3>Let me know if you want to talk
+                    about a potential collaboration.
+                    I'm available for freelance work.</h3>
+                <p>infoname@gmail.com</p>
+            </div>
+        </div>
+        <div class="main__card">
+            <form id="form">
+                <input type="text" placeholder="What's your name?" id="userName">
+                <input type="email" placeholder="Your email" id="userEmail">
+                <input type="text" placeholder="Tell me about your project" id="userReview">
+                <div class="btn__row">
+                    <a id="sendBtn" onclick="showQuote()">Get a Quote</a>
+                    <div class="right__btns">
+                        <div class="btn__pin"></div>
+                        <div class="btn__arrow"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="socials__wrapp">
+        <h3>Let's be Friends</h3>
+        <div class="btns__socials">
+            <div class="btn1__socials">
+                <div class="triangles__btn1"></div>
+                <div class="logo__btn1"></div>
+            </div>
+            <div class="btn2__socials">
+                <div class="triangles__btn2"></div>
+                <div class="logo__btn2"></div>
+            </div>
+            <div class="btn3__socials">
+                <div class="triangles__btn3"></div>
+                <div class="logo__btn3"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="quote-overlay" id="quoteOverlay" style="display: none;">
+    <div class="quote-container">
+        <p class="quote-text" id="quoteText"></p>
+    </div>
+</div>
+<script src="main.js"></script>
+<script src="app.js"></script>
+<script>
+    // Function to show the quote overlay
+    function showQuote() {
+        const quoteOverlay = document.getElementById('quoteOverlay');
+        const quoteText = document.getElementById('quoteText');
+        const randomQuote = getRandomQuote(); // Assuming you have a function to get a random quote
+        quoteText.textContent = randomQuote;
+        quoteOverlay.style.display = 'flex';
+    }
+</script>
+</body>
+</html>
