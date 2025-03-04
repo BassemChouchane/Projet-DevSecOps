@@ -1,8 +1,8 @@
 pipeline {
     agent any
     environment {
-        registry = "pfa123/pfa3.0"
-        registryCredential = 'dockerhubpfa'
+        registry = "YOUR DOCKERHUB REGISTRY"
+        registryCredential = 'YOUR CRED'
         dockerImage = ''
     }
     stages {
